@@ -21,38 +21,59 @@ def vanilla_grad_descent(rate, env):
     return grad_descent(lambda pos: -rate * env.gradient(pos), env)
 
 
-
 class MomentumStepFunction:
-    def __init__(self, alpha, df, rate):
+    """
+    Computes the next step for gradient descent with momentum.
+
+    The __call__ method takes a position (x,y) as its argument (expressed
+    as a 2-dimensional torch.tensor), and returns the next relative step
+    that gradient descent with momentum would take (also expressed as a
+    2-dimensional torch.tensor).
+        
+    """    
+    def __init__(self, loss_gradient, learning_rate, momentum_rate):
         raise NotImplementedError('Implement me.')
-
-    def __call__(self, pos):
-        raise NotImplementedError('Implement me.')
-
-
-def momentum_grad_descent(rate, env):
-    return grad_descent(MomentumStepFunction(0.3, env.gradient, rate), env)
-
-
-
-class AdagradStepFunction:
-    def __init__(self, df, rate):
-        raise NotImplementedError('Implement me.')
-
         
     def __call__(self, pos):
         raise NotImplementedError('Implement me.')
 
+def momentum_grad_descent(rate, env):
+    return grad_descent(MomentumStepFunction(env.gradient, rate, 0.3), env)
+
+
+class AdagradStepFunction:
+    """
+    Computes the next step for adagrad.
+
+    The __call__ method takes a position (x,y) as its argument (expressed
+    as a 2-dimensional torch.tensor), and returns the next relative step
+    that adagrad would take (also expressed as a
+    2-dimensional torch.tensor).
+        
+    """
+    def __init__(self, loss_gradient, learning_rate, delta = 0.0000001):
+        raise NotImplementedError('Implement me.')
+        
+    def __call__(self, pos):
+        raise NotImplementedError('Implement me.')
 
 def adagrad(rate, env):
     return grad_descent(AdagradStepFunction(env.gradient, rate), env)
 
 
-
 class RmsPropStepFunction:
-    def __init__(self, df, rate, decay_rate, delta=0.000001):
+    """
+    Computes the next step for gradient descent with momentum.
+
+    The __call__ method takes a position (x,y) as its argument (expressed
+    as a 2-dimensional torch.tensor), and returns the next relative step
+    that RmsProp would take (also expressed as a
+    2-dimensional torch.tensor).
+        
+    """
+    def __init__(self, loss_gradient, learning_rate, decay_rate, delta=0.000001):
         raise NotImplementedError('Implement me.')
- 
+        
     def __call__(self, pos):
         raise NotImplementedError('Implement me.')
 
