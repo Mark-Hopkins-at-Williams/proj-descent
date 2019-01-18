@@ -15,7 +15,7 @@ def grad_descent(step_fn, env):
     positions) visited during the gradient descent. 
     
     """
-    raise NotImplementedError('Implement me.')
+    raise NotImplementedError('Question 1')
 
 def vanilla_grad_descent(rate, env):
     return grad_descent(lambda pos: -rate * env.gradient(pos), env)
@@ -32,10 +32,10 @@ class MomentumStepFunction:
         
     """    
     def __init__(self, loss_gradient, learning_rate, momentum_rate):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 2')
         
     def __call__(self, pos):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 2')
 
 def momentum_grad_descent(rate, env):
     return grad_descent(MomentumStepFunction(env.gradient, rate, 0.3), env)
@@ -52,10 +52,10 @@ class AdagradStepFunction:
         
     """
     def __init__(self, loss_gradient, learning_rate, delta = 0.0000001):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 3')
         
     def __call__(self, pos):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 3')
 
 def adagrad(rate, env):
     return grad_descent(AdagradStepFunction(env.gradient, rate), env)
@@ -63,7 +63,7 @@ def adagrad(rate, env):
 
 class RmsPropStepFunction:
     """
-    Computes the next step for gradient descent with momentum.
+    Computes the next step for RmsProp.
 
     The __call__ method takes a position (x,y) as its argument (expressed
     as a 2-dimensional torch.tensor), and returns the next relative step
@@ -72,10 +72,10 @@ class RmsPropStepFunction:
         
     """
     def __init__(self, loss_gradient, learning_rate, decay_rate, delta=0.000001):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 4')
         
     def __call__(self, pos):
-        raise NotImplementedError('Implement me.')
+        raise NotImplementedError('Question 4')
 
 def rmsprop(rate, decay_rate, env):
     return grad_descent(RmsPropStepFunction(env.gradient, rate, decay_rate), env)
