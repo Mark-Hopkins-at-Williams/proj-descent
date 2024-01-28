@@ -21,18 +21,20 @@ class TestLevel(Environment):
 def check_positions(expected, actual):
     expected = [(round(pos[0].item(), 2), round(pos[1].item(), 2)) for pos in expected]
     actual = [(round(pos[0].item(), 2), round(pos[1].item(), 2)) for pos in actual]
-    return expected == actual
+    msg = None
+    for i, (pos1, pos2) in enumerate(zip(expected, actual)):
+        if pos1 != pos2:
+            msg = f"Positions differ at step {i}! Expected: {pos1}. Actual: {pos2}."
+            break
+    if len(expected) != len(actual) and msg is None:
+        different = min(len(expected), len(actual))
+        expected_pos = expected[different] if different < len(expected) else None
+        actual_pos = actual[different] if different < len(actual) else None
+        msg = f"Positions differ at step {different}! Expected: {expected_pos}. Actual: {actual_pos}."
+    assert expected == actual, msg
 
 
-class GradientDescentTests(unittest.TestCase):
-
-    def setUp(self):
-        """Call before every test case."""
-        pass
-
-    def tearDown(self):
-        """Call after every test case."""
-        pass
+class Q1(unittest.TestCase):
 
     def test_vanilla(self):
         expected =  [tensor([0., 0.]),
@@ -54,10 +56,10 @@ class GradientDescentTests(unittest.TestCase):
                      tensor([-2.4988, -3.8627]),
                      tensor([-2.4993, -3.8887]),
                      tensor([-2.4995, -3.9099])]
-        assert check_positions(expected, 
-                               vanilla_grad_descent(0.95, TestLevel())
-                               ), "vanilla test failed"
-        
+        check_positions(expected, vanilla_grad_descent(0.95, TestLevel()))
+
+class Q2(unittest.TestCase):
+    
     def test_momentum(self):
         expected =  [tensor([0., 0.]),
                      tensor([-0.9500, -0.7600]),
@@ -70,10 +72,10 @@ class GradientDescentTests(unittest.TestCase):
                      tensor([-2.5133, -3.7789]),
                      tensor([-2.5005, -3.8560]),
                      tensor([-2.4965, -3.9065])]
-        assert check_positions(expected, 
-                               momentum_grad_descent(0.95, TestLevel())
-                               ), "momentum test failed"
-        
+        check_positions(expected, momentum_grad_descent(0.95, TestLevel()))
+
+class Q3(unittest.TestCase):
+                    
     def test_adagrad(self):
         expected =  [tensor([0., 0.]),
                      tensor([-0.9500, -0.9500]),
@@ -99,24 +101,41 @@ class GradientDescentTests(unittest.TestCase):
                      tensor([-2.4985, -3.8721]),
                      tensor([-2.4989, -3.8899]),
                      tensor([-2.4992, -3.9053])]
-        assert check_positions(expected, 
-                               adagrad(0.95, TestLevel())
-                               ), "adagrad test failed"
-        
-    def test_rmsprop(self):
-        expected = [tensor([0., 0.]),
-                    tensor([-1.7888, -1.7888]),
-                    tensor([-2.2900, -2.6713]),
-                    tensor([-2.4413, -3.1919]),
-                    tensor([-2.4847, -3.5114]),
-                    tensor([-2.4963, -3.7085]),
-                    tensor([-2.4992, -3.8288]),
-                    tensor([-2.4998, -3.9013])]                
-        assert check_positions(expected, 
-                               rmsprop(0.4, 0.95, TestLevel())
-                               ), "rmsprop test failed"
+        check_positions(expected, adagrad(0.95, TestLevel()))
 
-       
+class Q4(unittest.TestCase):
+  
+    def test_rmsprop(self):
+        expected = [tensor([0., 0.]), 
+                    tensor([-0.4000, -0.4000]), 
+                    tensor([-0.7385, -0.7617]), 
+                    tensor([-1.0260, -1.0899]), 
+                    tensor([-1.2706, -1.3882]), 
+                    tensor([-1.4784, -1.6597]), 
+                    tensor([-1.6547, -1.9070]), 
+                    tensor([-1.8039, -2.1320]), 
+                    tensor([-1.9296, -2.3367]), 
+                    tensor([-2.0351, -2.5227]), 
+                    tensor([-2.1232, -2.6914]), 
+                    tensor([-2.1964, -2.8442]), 
+                    tensor([-2.2569, -2.9823]), 
+                    tensor([-2.3066, -3.1067]), 
+                    tensor([-2.3471, -3.2185]), 
+                    tensor([-2.3800, -3.3187]), 
+                    tensor([-2.4065, -3.4082]), 
+                    tensor([-2.4276, -3.4879]), 
+                    tensor([-2.4444, -3.5586]), 
+                    tensor([-2.4577, -3.6211]), 
+                    tensor([-2.4680, -3.6761]), 
+                    tensor([-2.4760, -3.7243]), 
+                    tensor([-2.4822, -3.7664]), 
+                    tensor([-2.4869, -3.8030]), 
+                    tensor([-2.4904, -3.8347]), 
+                    tensor([-2.4931, -3.8619]), 
+                    tensor([-2.4951, -3.8853]), 
+                    tensor([-2.4965, -3.9052])]       
+        check_positions(expected, rmsprop(0.4, 0.95, TestLevel()))
+
 
    
 if __name__ == "__main__":

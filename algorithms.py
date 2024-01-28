@@ -15,7 +15,11 @@ def grad_descent(step_fn, env):
     positions) visited during the gradient descent. 
     
     """
-    raise NotImplementedError('Question 1')
+    while env.status() == Environment.ACTIVELY_SEARCHING:
+        # take another step
+        raise NotImplementedError('Question 1') 
+    #return the list of visited positions
+    
 
 def vanilla_grad_descent(rate, env):
     return grad_descent(lambda pos: -rate * env.gradient(pos), env)

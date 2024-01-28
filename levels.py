@@ -1,4 +1,5 @@
 import torch
+import matplotlib.pyplot as plt
 
 class Environment:
     """
@@ -163,3 +164,28 @@ class LevelX(Environment):
     
     def _goal_position(self):
         return torch.tensor([50.0, 50.0])
+
+
+def visualize_journey(positions, found_destination):
+    """
+    Plots a series of (x,y) positions. The first point is orange, the intermediate points are gray, and the
+    final point is green or red, depending (respectively) on whether the destination has or has not been found.
+    
+    positions is a list of 2-dimensional torch.tensors
+    found_destination is a boolean indicating whether the destination was found
+    
+    """
+    xs = []
+    ys = []
+    for pt in positions:
+        xs.append(pt[0].item())
+        ys.append(pt[1].item())
+    plt.scatter(xs, ys, color='gray')
+    plt.plot(xs, ys, color='gray')
+    plt.scatter([0], [0], color='orange')
+    if found_destination:
+        final_color = 'lime'
+    else:
+        final_color = 'red'
+    plt.scatter([positions[-1][0].item()], [positions[-1][1].item()], color=final_color)
+    plt.show()
